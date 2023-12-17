@@ -1,6 +1,6 @@
 # Multi_Processing that mean when the program is sleep or that time wait untill Do some work my program do an other work to this time
 import time
-from multiprocessing import Process , freeze_support
+from multiprocessing import Process , freeze_support , current_process
 
 start = time.perf_counter()
 
@@ -20,6 +20,8 @@ start = time.perf_counter()
 
 def showProcess(name):
     print("What is your name?")
+    # this show with process in runing
+    print(current_process())
     time.sleep(3)
     print(name)
 
@@ -27,14 +29,14 @@ if __name__ == '__main__':
     freeze_support()
     start = time.perf_counter()
     
-    p1 = Process(target=showProcess, args=("Afshin Rahmati",))
-    p2 = Process(target=showProcess, args=("Amir Rahmati",))
+    p1 = Process(target=showProcess, args=("Afshin Rahmati",),name="First")
+    p2 = Process(target=showProcess, args=("Amir Rahmati",),name="Second")
     
     p1.start()
     p2.start()
     
     p1.join()  # Wait for p1 to finish
     p2.join()  # Wait for p2 to finish
-    
+    print(p1.is_alive()) # still exist
     end = time.perf_counter()
     print(f"Total time taken: {end - start} seconds") # 3 second because it work untill even the program is wait for do an other work
